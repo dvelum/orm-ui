@@ -1,3 +1,5 @@
+
+
 Ext.onReady(function() {
     app.crud.orm.canEdit = canEdit;
     app.crud.orm.canDelete = canDelete;
