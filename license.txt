@@ -1,8 +1,7 @@
-DVelum 3.0.0 PROFESSIONAL WEB-DEVELOPMENT PLATFORM
+DVelum ORM UI 4.0.0
 Copyright (C) 2011-2021,  Kirill A Egorov, Andrew Zamotaev, Sergey Leschenko
-http://dvelum.net/license.html
 
-This version of DVelum is licensed under the terms of the Open Source GPL 3.0 license. 
+This version of DVelum ORM UI is licensed under the terms of the Open Source GPL 3.0 license.
 
 DVelum is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

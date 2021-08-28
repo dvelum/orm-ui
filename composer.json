@@ -1,16 +1,15 @@
 {
-    "name": "dvelum/dvelum",
-    "version": "3.0.0-RC1",
+    "name": "dvelum/orm-ui",
+    "version": "4.0.0",
     "type": "project",
-    "description": "PHP/ExtJS-based web development platform",
+    "description": "UI Form DVelum ORM",
     "keywords": [
         "dvelum",
         "php",
-        "extjs",
-        "IDE",
+        "ui",
         "orm"
     ],
-    "homepage": "https://github.com/dvelum/dvelum",
+    "homepage": "https://github.com/dvelum/orm-ui",
     "license": "GPL-3.0-only",
     "authors": [
         {
@@ -27,8 +26,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/dvelum/dvelum/issues",
-        "source": "https://github.com/dvelum/dvelum"
+        "issues": "https://github.com/dvelum/orm-ui/issues",
+        "source": "https://github.com/dvelum/orm-ui"
     },
     "config": {
         "preferred-install": "dist",
@@ -37,62 +36,35 @@
     "require": {
         "php": ">=7.4.0",
         "ext-mysqli": "*",
-        "ext-gd": "*",
         "ext-mbstring": "*",
         "ext-json": "*",
         "composer/installers": "~1.9",
         "oomphinc/composer-installers-extender": "^2.0",
-        "psr/log": "^1.0",
-        "dvelum/dvelum-core": "^3.1",
-        "dvelum/extjs": "^6.2.0",
-        "dvelum/module-designer": "^1.6",
-        "matthiasmullie/minify": "~1.3",
-        "dvelum/module-filestorage": "^3.0",
-        "dvelum/module-articles": "^3.0"
+        "dvelum/extjs": "^7.0.0",
+        "nette/neon": "^3.2",
+        "matthiasmullie/minify": "~1.3"
     },
     "extra": {
         "installer-types": [
-            "js-library",
-            "dvelum3-module",
-            "dvelum3-extension",
-            "project"
+            "js-library"
         ],
         "installer-paths": {
-            "www/js/lib/ckeditor": [
-                "ckeditor/ckeditor"
-            ],
-            "extensions/dvelum-core": [
-                "dvelum/dvelum-core"
-            ],
-            "www/js/lib/{$name}": [
+            "public/js/lib/{$name}": [
                 "type:js-library"
-            ],
-            "modules/{$vendor}/{$name}": [
-                "type:dvelum3-module"
-            ],
-            "extensions/{$vendor}/{$name}": [
-                "type:dvelum3-extension"
             ]
+        }
+    },
+    "bin": [
+        "orm-ui"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dvelum\\Orm\\Ui\\": "src/"
         }
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
         "phpstan/phpstan": "^0.12",
-        "codacy/coverage": "dev-master",
-        "composer/composer": "^2.0"
-    },
-    "repositories": {
-        "chosen": {
-            "type": "package",
-            "package": {
-                "name": "ckeditor/ckeditor",
-                "version": "4.9.2",
-                "type": "js-library",
-                "dist": {
-                    "url": "https://github.com/ckeditor/ckeditor4-releases/archive/full/4.9.2.zip",
-                    "type": "zip"
-                }
-            }
-        }
+        "codacy/coverage": "dev-master"
     }
 }
