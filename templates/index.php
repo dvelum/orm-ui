@@ -23,7 +23,12 @@ $fields = $this->get('fields');
 </head>
 <body>
     <script>
-        var app = {wwwRoot:'/'};
+        var app = {
+            wwwRoot:'/',
+            admin:'/',
+            delimiter:'/',
+            root:'/orm/'
+        };
         var appLang = <?=$lang;?>;
         var canPublish =  true;
         var canEdit = true;

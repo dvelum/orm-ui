@@ -41,6 +41,7 @@
         "composer/installers": "~1.9",
         "oomphinc/composer-installers-extender": "^2.0",
         "dvelum/extjs": "^7.0.0",
+        "dvelum/ext-library": "^1.0.0",
         "nette/neon": "^3.2",
         "matthiasmullie/minify": "~1.3"
     },
@@ -59,7 +60,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Dvelum\\Orm\\Ui\\": "src/"
+            "Dvelum\\": "src/"
         }
     },
     "require-dev": {
