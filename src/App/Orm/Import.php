@@ -21,7 +21,8 @@ declare(strict_types=1);
 namespace Dvelum\App\Orm;
 
 use Dvelum\Orm;
-use Dvelum\Orm\Record\Builder;
+
+use Dvelum\Orm\Record\BuilderFactory;
 use Dvelum\Db\Adapter;
 use \Ext_Factory;
 
@@ -32,9 +33,9 @@ class Import
      * 
      * @param string $name            
      * @param array $fieldConfig - field info from Db_Object_Config
-     * @return array| null
+     * @return \Ext_Object
      */
-    static public function convertOrmFieldToExtField(string $name , array $fieldConfig) : ?array
+    static public function convertOrmFieldToExtField(string $name , array $fieldConfig)
     {
         //$designerConfig  = \Dvelum\Config::storage()->get('designer.php');
         $type = $fieldConfig['db_type'];
@@ -77,7 +78,7 @@ class Import
         /*
          * Integer
          */
-        elseif(in_array($type , Builder::$intTypes , true))
+        elseif(in_array($type , BuilderFactory::$intTypes , true))
         {
             $newField = Ext_Factory::object('Form_Field_Number');
             $newField->allowDecimals = false;
@@ -85,7 +86,7 @@ class Import
         /*
          * Float
          */
-        elseif(in_array($type , Builder::$floatTypes , true))
+        elseif(in_array($type , BuilderFactory::$floatTypes , true))
         {
             $newField = Ext_Factory::object('Form_Field_Number');
             $newField->allowDecimals = true;
@@ -99,14 +100,14 @@ class Import
         /*
          * String
          */
-        elseif(in_array($type , Builder::$charTypes , true))
+        elseif(in_array($type , BuilderFactory::$charTypes , true))
         {
             $newField = Ext_Factory::object('Form_Field_Text');
         }
         /*
          * Text
          */
-        elseif(in_array($type , Builder::$textTypes , true))
+        elseif(in_array($type , BuilderFactory::$textTypes , true))
         {
 
 //            if($designerConfig->get('html_editor') && isset($fieldConfig['allow_html']) && $fieldConfig['allow_html']){
@@ -123,7 +124,7 @@ class Import
         /*
          * Date time
          */
-        elseif(in_array($type , Builder::$dateTypes , true))
+        elseif(in_array($type , BuilderFactory::$dateTypes , true))
         {
             switch($type){
                 case 'date':
@@ -163,7 +164,7 @@ class Import
         if(isset($fieldConfig['db_default']) && $fieldConfig['db_default']!==false && $newFieldConfig->isValidProperty('value'))
           $newField->value  = $fieldConfig['db_default'];
          
-        if(in_array($type, Builder::$numTypes , true) && isset($fieldConfig['db_unsigned']) && $fieldConfig['db_unsigned'] && $newFieldConfig->isValidProperty('minValue'))
+        if(in_array($type, BuilderFactory::$numTypes , true) && isset($fieldConfig['db_unsigned']) && $fieldConfig['db_unsigned'] && $newFieldConfig->isValidProperty('minValue'))
           $newField->minValue = 0;
                            
         if($newField->getClass() != 'Component_Field_System_Medialibhtml' && $newFieldConfig->isValidProperty('fieldLabel'))

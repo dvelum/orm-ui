@@ -319,7 +319,7 @@ class DataView extends Controller
 									xtype:"medialibitemfield",
 									resourceType:"all",
 									name:"' . $field . '",
-									readOnly:' . intval($readOnly) . ',
+									readOnly:' . (int)($readOnly) . ',
 									fieldLabel:"' . $fieldCfg['title'] . '"
 								}';
                 } else {
@@ -327,9 +327,7 @@ class DataView extends Controller
 						{
 							xtype:"objectfield",
 							objectName:"' . $fieldObj->getLinkedObject() . '",
-							controllerUrl:"' . $this->request->url(
-                            [$this->appConfig->get('adminPath'), 'orm', 'dataview', '']
-                        ) . '",
+							controllerUrl:"/orm/dataview/",
 							fieldLabel:"' . $fieldCfg['title'] . '",
 							name:"' . $field . '",
 							anchor:"100%",
@@ -349,7 +347,7 @@ class DataView extends Controller
                     }
 
                  //   if ($designerConfig->get('html_editor') && $fieldObj->isText() && $fieldObj->isHtml()) {
-                        $tabs[] = $newField->__toString();
+                 //       $tabs[] = $newField->__toString();
                  //   } else {
                         $data[] = $newField->__toString();
                 //    }
