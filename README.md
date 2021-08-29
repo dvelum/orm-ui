@@ -11,7 +11,6 @@ ORM UI for DVelum Core 4.x
 
 ```
 composer require --dev dvelum/orm-ui
-php ./console.php /extension-add/dvelum/orm-ui
 ```
 
 
