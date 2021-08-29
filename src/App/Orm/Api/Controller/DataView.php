@@ -23,6 +23,7 @@ namespace Dvelum\App\Orm\Api\Controller;
 
 
 use Dvelum\App\Orm\Import;
+use Dvelum\App\Orm\Data;
 use Dvelum\App\Controller\Event;
 use Dvelum\App\Controller\EventManager;
 use Dvelum\App\Orm\Data\Api\Controller;
@@ -193,9 +194,7 @@ class DataView extends Controller
             }
 
             if ($field->isSearch()) {
-                $col->text = '<img data-qtip="' . $this->lang->get('SEARCH') . '" src="' . $this->appConfig->get(
-                        'wwwroot'
-                    ) . 'i/system/search.png" height="10"/> ' . $col->text;
+                $col->text = '<img data-qtip="' . $this->lang->get('SEARCH') . '" src="/i/system/search.png" height="10"/> ' . $col->text;
             }
 
             if ($field->isMultiLink()) {
@@ -257,7 +256,7 @@ class DataView extends Controller
         }
 
         $objectConfig = $this->orm->config($object);
-        $designerConfig = Config::storage()->get('designer.php');
+        //$designerConfig = Config::storage()->get('designer.php');
 
         $data = [];
         $tabs = [];
@@ -349,11 +348,11 @@ class DataView extends Controller
                         $newField->set('readOnly', true);
                     }
 
-                    if ($designerConfig->get('html_editor') && $fieldObj->isText() && $fieldObj->isHtml()) {
+                 //   if ($designerConfig->get('html_editor') && $fieldObj->isText() && $fieldObj->isHtml()) {
                         $tabs[] = $newField->__toString();
-                    } else {
+                 //   } else {
                         $data[] = $newField->__toString();
-                    }
+                //    }
                 }
             }
         }
@@ -458,14 +457,9 @@ class DataView extends Controller
         $this->response->success(['bucket' => $bucket]);
     }
 
-    /**
-     * @param Api\Request $request
-     * @param User $user
-     * @return Api
-     */
-    protected function getApi(Api\Request $request, User $user): Api
+    protected function getApi(Data\Api\Request $request): Data\Api
     {
-        $api = parent::getApi($request, $user);
+        $api = parent::getApi($request);
         $api->setUseApproximateCount(true);
         return $api;
     }

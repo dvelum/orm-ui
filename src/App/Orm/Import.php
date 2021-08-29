@@ -108,14 +108,17 @@ class Import
          */
         elseif(in_array($type , Builder::$textTypes , true))
         {
-            if($designerConfig->get('html_editor') && isset($fieldConfig['allow_html']) && $fieldConfig['allow_html']){
-                $newField = Ext_Factory::object('Component_Field_System_Medialibhtml');
-                $newField->editorName = $name;
-                $newField->title = $fieldConfig['title'];
-                $newField->frame = false;
-            }else{
-                $newField = Ext_Factory::object('Form_Field_Textarea');
-            }
+
+//            if($designerConfig->get('html_editor') && isset($fieldConfig['allow_html']) && $fieldConfig['allow_html']){
+//                $newField = Ext_Factory::object('Component_Field_System_Medialibhtml');
+//                $newField->editorName = $name;
+//                $newField->title = $fieldConfig['title'];
+//                $newField->frame = false;
+//            }else{
+//                $newField = Ext_Factory::object('Form_Field_Textarea');
+//            }
+
+            $newField = Ext_Factory::object('Form_Field_Textarea');
         }
         /*
          * Date time
