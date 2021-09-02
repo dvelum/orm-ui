@@ -23,20 +23,20 @@ declare(strict_types=1);
 namespace Dvelum\Orm\Ui\Service\Orm;
 
 use Dvelum\Orm\Ui\EnvParams;
+use Dvelum\Request;
+use Dvelum\Response\ResponseInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Proxy to ORM actions
  */
 class Controller
 {
-    private ServerRequestInterface $request;
+    private Request $request;
     private ResponseInterface $response;
     private EnvParams $params;
 
-    public function __construct(ServerRequestInterface $req, ResponseInterface $resp, EnvParams $params)
+    public function __construct(Request $req, ResponseInterface $resp, EnvParams $params)
     {
         $this->request = $req;
         $this->response = $resp;

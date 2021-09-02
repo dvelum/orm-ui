@@ -25,25 +25,24 @@ namespace Dvelum\Orm\Ui;
 
 use Dvelum\Orm\Ui\Service\Index\Controller as IndexController;
 use Dvelum\Orm\Ui\Service\Orm\Controller as OrmController;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Dvelum\Request;
+use Dvelum\Response\ResponseInterface;
 
 class Server
 {
-    public function run(ServerRequestInterface $request, ResponseInterface $response, EnvParams $params): ResponseInterface
+    public function run(Request $request, ResponseInterface $response, EnvParams $params): ResponseInterface
     {
         return $this->routeRequest($request, $response, $params);
     }
 
-    public function routeRequest(ServerRequestInterface $request, ResponseInterface $response, EnvParams $params): ResponseInterface
+    public function routeRequest(Request $request, ResponseInterface $response, EnvParams $params): ResponseInterface
     {
         $routes = [
             'index' => IndexController::class,
             'orm' => OrmController::class
         ];
 
-        $uriParts = explode('/', trim(strtolower($request->getUri()->getPath()), '/'));
-
+        $uriParts = $request->getPathParts();
 
         if (isset($routes[$uriParts[0] ?? 'index'])) {
             $controllerClass = $routes[$uriParts[0]];

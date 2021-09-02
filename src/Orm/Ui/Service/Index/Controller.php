@@ -29,31 +29,38 @@ use Dvelum\Orm\Ui\View\Template;
 use Dvelum\Utils;
 use MatthiasMullie\Minify\JS;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Dvelum\Request;
+use Dvelum\Response\ResponseInterface;
 
 class Controller
 {
-    private ServerRequestInterface $request;
+    private Request $request;
     private ResponseInterface $response;
     private EnvParams $params;
 
-    public function __construct(ServerRequestInterface $req, ResponseInterface $resp, EnvParams $params)
+    public function __construct(Request $req, ResponseInterface $resp, EnvParams $params)
     {
         $this->request = $req;
         $this->response = $resp;
         $this->params = $params;
     }
 
-    public function indexAction() : ResponseInterface
+    public function indexAction(): ResponseInterface
     {
         /**
          * @var ContainerInterface $diContainer
          */
         $diContainer = $this->params->getApplication()->getDiContainer();
+        /**
+         * @var Lang $langService
+         */
         $langService = $diContainer->get(Lang::class);
-        $lang = $langService->lang();
-        $diContainer->get(Lang::class)->getStorage()->addPath(DVELUM_ORM_IU_DIR . '/locales/'.$langService->getDefaultDictionary().'/');
+        $lang = $langService->getDictionary();
+        $diContainer->get(Lang::class)
+            ->getStorage()
+            ->addPath(
+                DVELUM_ORM_IU_DIR . '/locales/' . $langService->getDefaultDictionary() . '/'
+            );
         $diContainer->get(Lang::class)->addLoader('orm_tooltips', 'orm.php');
         $dbConfigs = [];
 
@@ -65,19 +72,22 @@ class Controller
         }
 
         $template = new Template();
-        $template->setData([
-            'lang' => $lang->getJson(),
-            'orm_lang' => $diContainer->get(Lang::class)->lang('orm_tooltips')->getJson(),
-            'db_configs' => $dbConfigs,
-            'actions' => $this->getActions(),
-            'fields' => $this->getAdditionalObjectFields()
-        ]);
+        $template->setData(
+            [
+                'lang' => $lang->getJson(),
+                'orm_lang' => $diContainer->get(Lang::class)->getDictionary('orm_tooltips')->getJson(),
+                'db_configs' => $dbConfigs,
+                'actions' => $this->getActions(),
+                'fields' => $this->getAdditionalObjectFields()
+            ]
+        );
         $html = $template->render(DVELUM_ORM_IU_DIR . '/templates/index.php');
-        $this->response->getBody()->write($html);
+        $this->response->put($html);
+        $this->response->send();
         return $this->response;
     }
 
-    private function getActions() : array
+    private function getActions(): array
     {
         /**
          * @var ContainerInterface $diContainer
@@ -129,8 +139,8 @@ class Controller
         ];
 
         $min = new JS();
-        foreach ($files as $file){
-            $min->add(DVELUM_DR_IU_DIR . '/' .$file);
+        foreach ($files as $file) {
+            $min->add(DVELUM_DR_IU_DIR . '/' . $file);
         }
         $min->minify(DVELUM_DR_IU_DIR . '/public/js/build.js');
     }
