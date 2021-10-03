@@ -25,7 +25,7 @@ $fields = $this->get('fields');
     <script>
         var app = {
             wwwRoot:'/',
-            admin:'/',
+            admin:'/orm',
             delimiter:'/',
             root:'/orm/'
         };

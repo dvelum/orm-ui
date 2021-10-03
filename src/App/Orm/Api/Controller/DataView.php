@@ -49,7 +49,7 @@ class DataView extends Controller
         return implode('_', array_map('ucfirst', explode('_', $dataObject)));
     }
 
-    public function initListeners()
+    public function initListeners(): void
     {
         $this->eventManager->on(EventManager::AFTER_LIST, [$this, 'prepareList']);
     }
@@ -80,9 +80,9 @@ class DataView extends Controller
         }
     }
 
-    public function shardListAction()
+    public function shardListAction() : void
     {
-        $distributed = Orm\Distributed::factory();
+        $distributed = $this->container->get(Orm\Distributed::class);
         $shards = $distributed->getShards();
         $list = [];
         foreach ($shards as $item) {
@@ -91,7 +91,7 @@ class DataView extends Controller
         $this->response->success($list);
     }
 
-    public function viewConfigAction()
+    public function viewConfigAction() : void
     {
         $object = $this->request->post('d_object', 'string', false);
         $shard = $this->request->post('shard', 'string', '');
@@ -137,7 +137,7 @@ class DataView extends Controller
         }
 
         if ($objectConfig->isShardRequired()) {
-            $shardField = Orm\Distributed::factory()->getShardField();
+            $shardField = $this->container->get(Orm\Distributed::class)->getShardField();
         } else {
             $shardField = false;
         }
@@ -194,7 +194,9 @@ class DataView extends Controller
             }
 
             if ($field->isSearch()) {
-                $col->text = '<img data-qtip="' . $this->lang->get('SEARCH') . '" src="/i/system/search.png" height="10"/> ' . $col->text;
+                $col->text = '<img data-qtip="' . $this->lang->get(
+                        'SEARCH'
+                    ) . '" src="/i/system/search.png" height="10"/> ' . $col->text;
             }
 
             if ($field->isMultiLink()) {
@@ -226,7 +228,7 @@ class DataView extends Controller
         $this->response->success($result);
     }
 
-    public function listAction()
+    public function listAction() : void
     {
         $object = $this->request->post('d_object', 'string', null);
 
@@ -246,7 +248,7 @@ class DataView extends Controller
         parent::listAction();
     }
 
-    public function editorConfigAction()
+    public function editorConfigAction() : void
     {
         $object = $this->request->post('d_object', 'string', null);
 
@@ -346,11 +348,11 @@ class DataView extends Controller
                         $newField->set('readOnly', true);
                     }
 
-                 //   if ($designerConfig->get('html_editor') && $fieldObj->isText() && $fieldObj->isHtml()) {
-                 //       $tabs[] = $newField->__toString();
-                 //   } else {
-                        $data[] = $newField->__toString();
-                //    }
+                    //   if ($designerConfig->get('html_editor') && $fieldObj->isText() && $fieldObj->isHtml()) {
+                    //       $tabs[] = $newField->__toString();
+                    //   } else {
+                    $data[] = $newField->__toString();
+                    //    }
                 }
             }
         }
@@ -359,7 +361,7 @@ class DataView extends Controller
         $shardKey = 'shard';
 
         if ($objectConfig->isShardRequired()) {
-            $shardKey = Orm\Distributed::factory()->getShardField();
+            $shardKey = $this->container->get(Orm\Distributed::class)->getShardField();
         }
 
         $mapKey = null;
@@ -373,7 +375,7 @@ class DataView extends Controller
             [
                 'related' => $related,
                 'fields' => str_replace(["\n", "\t"], '', '[' . implode(',', $tabs) . ']'),
-                'readOnly' => intval($readOnly),
+                'readOnly' => (int)$readOnly,
                 'primaryKey' => $objectConfig->getPrimaryKey(),
                 'shardKey' => $shardKey,
                 'readOnlyAfterCreate' => [$mapKey]
@@ -415,7 +417,7 @@ class DataView extends Controller
         parent::objectTitleAction();
     }
 
-    public function findBucketAction()
+    public function findBucketAction()  :void
     {
         $object = $this->request->post('d_object', 'string', null);
 
@@ -441,7 +443,7 @@ class DataView extends Controller
         /**
          * @var Orm\Distributed\Key\Strategy\VirtualBucket $keyGen ;
          */
-        $keyGen = Orm\Distributed::factory()->getKeyGenerator($object);
+        $keyGen = $this->container->get(Orm\Distributed::class)->getKeyGenerator($object);
         if ($field->isNumeric()) {
             $bucket = $keyGen->getNumericMapper()->keyToBucket((int)$value);
         } else {

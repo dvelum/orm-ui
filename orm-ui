@@ -51,7 +51,6 @@ if(file_exists($workingDirectory.'/orm-ui.neon')){
 
 $userConfig = [
     'dir' => $workingDirectory,
-    'registry' => $config['registry'],
     'bootstrap' => $config['bootstrap']
 ];
 
